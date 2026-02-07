@@ -1,15 +1,14 @@
-#include <stdint.h>
 #include "stm8s003_beep.h"
 
-static void delay_cycles(uint32_t n)
+static void delay_cycles(unsigned long n)
 {
-    volatile uint32_t i = n;
+    volatile unsigned long i = n;
     while (i--) { (void)0; }
 }
 
-static void beep_on(uint8_t freq_khz)
+static void beep_on(unsigned char freq_khz)
 {
-    uint8_t sel = BEEPSEL_2KHZ;
+    unsigned char sel = BEEPSEL_2KHZ;
     if (freq_khz == 1) sel = BEEPSEL_1KHZ;
     if (freq_khz == 4) sel = BEEPSEL_4KHZ;
     BEEP_CSR = sel | BEEPEN;
@@ -30,7 +29,7 @@ int main(void)
     /* PD4 — выход под пищалку (BEEP) */
     PD_DDR  |= PD4;
     PD_CR1  |= PD4;
-    PD_CR2  &= (uint8_t)~PD4;
+    PD_CR2  &= (unsigned char)~PD4;
 
     /* Короткий писк при старте: 2 кГц, ~0.3 с */
     beep_on(2);
